@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Partner bank demo</title>
+    <style>
+      /* This is the "partner" theming the widget */
+      credit-score-card {
+        --widget-bg: #0f172a;
+        --widget-text: #f8fafc;
+        --widget-accent: #22c55e;
+        --widget-radius: 4px;
+      }
+
+      /* This should NOT affect the widget, which proves Shadow DOM isolation works */
+      button {
+        background: hotpink !important;
+      }
+    </style>
+  </head>
+  <body>
+    <credit-score-card score="728" partner-name="Acme Bank"></credit-score-card>
+
+    <script type="module" src="/src/main.ts"></script>
+    <script>
+      const widget = document.querySelector('credit-score-card');
+
+      // Listen to the event the widget emits
+      widget.addEventListener('view-details', (event) => {
+        console.log('Partner received:', event.detail);
+      });
+
+      // Change a prop from outside, the way a partner's code would
+      setTimeout(() => {
+        widget.score = 650;
+      }, 3000);
+    </script>
+  </body>
+</html>
